@@ -46,7 +46,7 @@
 | 1 | Plugin location | **`plugins/community/slint-design`**. Старый путь `plugins/slint-design` — stub README redirect. |
 | 2 | Primary runtime | **OpenCode** (primary for acceptance, examples, smoke notes, `OPENCODE_CONFIG_CONTENT`). Claude Code / Cursor — portable secondary via same `SKILL.md`. |
 | 3 | WASM in v1? | **No.** PNG is v1 default. S3 = HTML scaffold + docs only; full `slint-wasm-interpreter` binary deferred (heavy build, `publish=false` upstream). |
-| 4 | slint-viewer versioning | See §5.1. **Min:** 1.17 (`--check`, `--screenshot`). **Recommended pin:** **1.18.1** (`--size`, viewer `mcp` feature). Local Mac had 1.17.1 (no `--size`). |
+| 4 | slint-viewer versioning | See §5.1 (verified on Mac 2026-09-23). **Min PNG path:** **1.17.1** (`--check`+`--screenshot`). **Multi-size:** ≥**1.18.0**. **Recommended pin:** **1.18.1**. Viewer MCP = Cargo feature `mcp`, **not** in default `cargo install` binary. |
 | 5 | Figma→Slint | **Separate skill later**; out of scope here. |
 | 6 | ArtifactKind stance | Maintainer (lefarcen on #8405): needs direction before core work; community path OK; screenshot + `--check` lower-risk; embedded MCP opt-in. **S4 = RFC draft only, not filed/submitted.** |
 
@@ -99,29 +99,29 @@ Stub: `plugins/slint-design/README.md` → points here.
 
 ---
 
-## 5.1 slint-viewer versioning (tested / documented 2026-09-23)
+## 5.1 slint-viewer versioning (verified on Mac 2026-09-23)
 
-| Version | Source | `--check` | `--screenshot` | `--size` | viewer MCP feature |
-|---------|--------|-----------|----------------|----------|--------------------|
-| **1.17.0** | changelog | yes (added) | yes (added) | no | runtime MCP elsewhere; not viewer feature |
-| **1.17.1** | installed on Mac (`~/.local/bin`) | **OK** (tested) | **OK** (tested; default window size e.g. 480×320 for hello) | **missing** (CLI error) | not in viewer Cargo feature |
-| **1.18.0** | changelog | yes | yes | **added** | **added** (`mcp` Cargo feature) |
-| **1.18.1** | GitHub latest stable; tested via `cargo install --root /tmp/slint-viewer-1181` (2026-09-23) | **OK** | **OK** | **OK** (1280×800 + 390×844) | crates.io default binary: MCP feature may need `--features mcp` at install; treat as opt-in |
+**Do not guess — measured locally:**
+
+| Version | Source | `--check` | `--screenshot` | `--size WxH` | MCP in default cargo binary |
+|---------|--------|-----------|----------------|--------------|------------------------------|
+| **1.17.1** | Installed on PATH (`~/.local/bin`) | **OK** (exit 0) | **OK** (PNG written) | **FAIL:** `unexpected argument '--size'` | N/A — not in `--help` |
+| **1.18.1** | crates.io / GitHub **current stable = newest** (2026-09-21); also `cargo install slint-viewer --version 1.18.1 --locked --root /tmp/slint-viewer-1181` | **OK** on `examples/hello-window.slint` | **OK** | **OK** (`1280x800` and `390x844` PNGs) | **No.** MCP is Cargo feature `mcp` (changelog 1.18.0); default `cargo install` binary has **no** MCP CLI flag. Opt-in: `cargo install slint-viewer --version 1.18.1 --features mcp`. Prefer docs MCP URL for language reference. |
+
+Changelog facts: `--check` / `--screenshot` since ~1.17; `--size` and viewer `mcp` feature in **1.18.0** notes. No newer prerelease/newer crate than **1.18.1** at check time.
 
 **Recommendation**
 
-- **Minimum supported:** `slint-viewer` **≥ 1.17.0** (enough for check + PNG smoke).
-- **Recommended pin:** **1.18.1** (or latest 1.18.x) for `--size` multi-viewport screenshots and optional viewer MCP.
-- **Install / pin:**
+- **Minimum for S1 PNG path:** **1.17.1** (`--check` + `--screenshot`). Multi-size screenshots require **≥ 1.18.0**.
+- **Recommended pin for OpenCode / plugin DX:** **1.18.1** (current stable).
+- **CI smoke:** install/pin **1.18.1**; run `--check` on examples/templates; optional `--size` screenshots only on ≥1.18.
+- **Viewer MCP:** optional/opt-in feature, **not required for v1** (aligns with maintainer on #8405). Prefer docs MCP `https://docs.slint.dev/mcp` for language reference.
+- **Install:**
   - `cargo install slint-viewer --version 1.18.1 --locked`
-  - or isolated: `cargo install slint-viewer --version 1.18.1 --locked --root /tmp/slint-viewer-1.18.1`
-  - or `mise` tool pin if/when a mise backend is configured for the binary.
-- **Doctor note:** agents should run `slint-viewer --version` and, if `< 1.18`, skip `--size` / document default window size; do not fail the whole run.
-- **CI:** workflow installs a pinned 1.18.x (or uses `cargo install`) and runs `scripts/smoke.sh`.
+  - isolated: `cargo install slint-viewer --version 1.18.1 --locked --root /tmp/slint-viewer-1181`
+  - embedded viewer MCP only if needed: add `--features mcp`
+- **Doctor note:** agents run `slint-viewer --version`; if `< 1.18`, omit `--size` and note default window size; do not fail the whole run.
 
-Embedded Slint MCP remains **opt-in** (not required for apply/smoke).
-
----
 
 ## 6. OpenCode notes (primary runtime)
 
