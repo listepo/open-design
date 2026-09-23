@@ -46,7 +46,11 @@ fi
 # Do not fail smoke on 1.17 or screenshot errors.
 EXAMPLE="$ROOT/examples/hello-window.slint"
 if "$VIEWER" --help 2>&1 | grep -q -- '--size'; then
-  tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/slint-design-smoke.XXXXXX")"
+  tmp_root="${TMPDIR:-/tmp}"
+  tmp_root="${tmp_root%/}"
+  tmpdir="$(mktemp -d "${tmp_root}/slint-design-smoke.XXXXXX")"
+  # shellcheck disable=SC2064
+  trap 'rm -rf "$tmpdir"' EXIT
   echo "==> --size supported; writing temp screenshots under $tmpdir"
   for size in 1280x800 390x844; do
     out="$tmpdir/hello-window-${size}.png"

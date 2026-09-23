@@ -37,13 +37,12 @@
     "scenario": "native-ui",
     "preview": {
       "type": "image",
-      "entry": "./examples/hello-window.slint",
       "poster": "./examples/hello-window.png"
     },
     "useCase": {
       "query": {
         "en": "Design a Slint UI for {{goal}} at {{size}}, then check and screenshot it for preview.",
-        "zh-CN": "\u7528 Slint \u4e3a {{goal}} \u8bbe\u8ba1\u754c\u9762\uff08\u5c3a\u5bf8 {{size}}\uff09\uff0c\u68c0\u67e5\u5e76\u622a\u56fe\u9884\u89c8\u3002"
+        "zh-CN": "用 Slint 为 {{goal}} 设计界面（尺寸 {{size}}），检查并截图预览。"
       },
       "exampleOutputs": [
         {

@@ -38,20 +38,5 @@ jobs:
       - name: Show version
         run: slint-viewer --version
 
-      - name: Run smoke (--check)
+      - name: Run smoke (--check + best-effort --size screenshots)
         run: bash plugins/community/slint-design/scripts/smoke.sh
-
-      - name: Optional multi-size screenshot (best-effort)
-        run: |
-          set -euo pipefail
-          EX=plugins/community/slint-design/examples/hello-window.slint
-          OUT=/tmp/slint-smoke
-          mkdir -p "$OUT"
-          if slint-viewer --help 2>&1 | grep -q -- '--size'; then
-            slint-viewer --screenshot "$OUT/desktop.png" --size 1280x800 "$EX"
-            slint-viewer --screenshot "$OUT/mobile.png" --size 390x844 "$EX"
-            ls -la "$OUT"
-          else
-            echo "slint-viewer lacks --size; skipping multi-size screenshot"
-            slint-viewer --screenshot "$OUT/default.png" "$EX"
-          fi
