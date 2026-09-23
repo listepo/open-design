@@ -19,10 +19,10 @@ od plugin trust slint-design --capabilities prompt:inject,fs:read,fs:write,mcp,s
 
 ### Dependencies on the machine
 
-1. Install [`slint-viewer`](https://slint.dev) **≥ 1.17** (prefer **1.18.1+** for `--size` and viewer MCP).
+1. Install [`slint-viewer`](https://slint.dev) **pinned to 1.18.1** (required for `--size` desktop/mobile screenshots and optional viewer MCP). Older **≥ 1.17** still runs `--check`/`--screenshot` without `--size`.
 2. Ensure `slint-viewer` is on `PATH`.
 3. Optional: `slint-lsp` for editor diagnostics.
-4. Optional doctor: `slint-viewer --version` — if `< 1.18`, skip `--size` and use default window dimensions for screenshots.
+4. Doctor: `slint-viewer --version` must report **1.18.1** for the pinned DX path. If `< 1.18`, skip `--size` and use default window dimensions (compat only).
 
 Pin examples:
 

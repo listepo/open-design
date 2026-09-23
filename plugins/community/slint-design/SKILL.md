@@ -24,7 +24,7 @@ portable to Claude Code and Cursor as a secondary host.
 
 ## Prerequisites
 
-- `slint-viewer` on `PATH` (**≥ 1.17**; **1.18.1+** preferred for `--size` and optional viewer MCP).
+- `slint-viewer` on `PATH`, **pinned to 1.18.1** for `--size` (1280×800 / 390×844) and optional viewer MCP. Compat floor for check/screenshot-only: ≥ 1.17.
 - Optional: `slint-lsp` for editor diagnostics.
 - Docs MCP (when applied in OD): `https://docs.slint.dev/mcp`.
 

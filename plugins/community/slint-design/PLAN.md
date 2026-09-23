@@ -46,7 +46,7 @@
 | 1 | Plugin location | **`plugins/community/slint-design`**. Старый путь `plugins/slint-design` — stub README redirect. |
 | 2 | Primary runtime | **OpenCode** (primary for acceptance, examples, smoke notes, `OPENCODE_CONFIG_CONTENT`). Claude Code / Cursor — portable secondary via same `SKILL.md`. |
 | 3 | WASM in v1? | **No.** PNG is v1 default. S3 = HTML scaffold + docs only; full `slint-wasm-interpreter` binary deferred (heavy build, `publish=false` upstream). |
-| 4 | slint-viewer versioning | See §5.1 (verified on Mac 2026-09-23). **Min PNG path:** **1.17.1** (`--check`+`--screenshot`). **Multi-size:** ≥**1.18.0**. **Recommended pin:** **1.18.1**. Viewer MCP = Cargo feature `mcp`, **not** in default `cargo install` binary. |
+| 4 | slint-viewer versioning | See §5.1. **Branch pin:** **1.18.1** (Mac PATH + CI). **Compat floor:** **1.17.1** (`--check`+`--screenshot`, no `--size`). **Multi-size:** ≥**1.18.0**. Viewer MCP = Cargo feature `mcp`, **not** in default `cargo install` binary. |
 | 5 | Figma→Slint | **Separate skill later**; out of scope here. |
 | 6 | ArtifactKind stance | Maintainer (lefarcen on #8405): needs direction before core work; community path OK; screenshot + `--check` lower-risk; embedded MCP opt-in. **S4 = RFC draft only, not filed/submitted.** |
 
@@ -99,22 +99,23 @@ Stub: `plugins/slint-design/README.md` → points here.
 
 ---
 
-## 5.1 slint-viewer versioning (verified on Mac 2026-09-23)
+## 5.1 slint-viewer versioning (verified on Mac 2026-09-23 / PATH upgraded 2026-09-24)
 
 **Do not guess — measured locally:**
 
 | Version | Source | `--check` | `--screenshot` | `--size WxH` | MCP in default cargo binary |
 |---------|--------|-----------|----------------|--------------|------------------------------|
-| **1.17.1** | Installed on PATH (`~/.local/bin`) | **OK** (exit 0) | **OK** (PNG written) | **FAIL:** `unexpected argument '--size'` | N/A — not in `--help` |
-| **1.18.1** | crates.io / GitHub **current stable = newest** (2026-09-21); also `cargo install slint-viewer --version 1.18.1 --locked --root /tmp/slint-viewer-1181` | **OK** on `examples/hello-window.slint` | **OK** | **OK** (`1280x800` and `390x844` PNGs) | **No.** MCP is Cargo feature `mcp` (changelog 1.18.0); default `cargo install` binary has **no** MCP CLI flag. Opt-in: `cargo install slint-viewer --version 1.18.1 --features mcp`. Prefer docs MCP URL for language reference. |
+| **1.17.1** | Previously on PATH (`~/.local/bin`); retained as compat floor | **OK** (exit 0) | **OK** (PNG written) | **FAIL:** `unexpected argument '--size'` | N/A — not in `--help` |
+| **1.18.1** | **Pinned:** crates.io/GitHub current stable; Mac PATH `~/.local/bin` (as of 2026-09-24); CI workflow pin; was also tested via `--root /tmp/slint-viewer-1181` | **OK** | **OK** | **OK** (`1280x800` and `390x844`) | **No** in default binary — Cargo feature `mcp` opt-in. Prefer docs MCP URL for language. |
 
 Changelog facts: `--check` / `--screenshot` since ~1.17; `--size` and viewer `mcp` feature in **1.18.0** notes. No newer prerelease/newer crate than **1.18.1** at check time.
 
 **Recommendation**
 
-- **Minimum for S1 PNG path:** **1.17.1** (`--check` + `--screenshot`). Multi-size screenshots require **≥ 1.18.0**.
-- **Recommended pin for OpenCode / plugin DX:** **1.18.1** (current stable).
-- **CI smoke:** install/pin **1.18.1**; run `--check` on examples/templates; optional `--size` screenshots only on ≥1.18.
+- **Branch / DX pin:** **1.18.1** (OpenCode acceptance, CI, Mac PATH).
+- **Compat floor:** **1.17.1** (`--check` + `--screenshot` only; no `--size`).
+- **Multi-size:** requires **≥ 1.18.0**; smoke writes 1280×800 and 390×844 when `--size` exists.
+- **CI smoke:** install/pin **1.18.1**; `--check` + multi-size screenshots.
 - **Viewer MCP:** optional/opt-in feature, **not required for v1** (aligns with maintainer on #8405). Prefer docs MCP `https://docs.slint.dev/mcp` for language reference.
 - **Install:**
   - `cargo install slint-viewer --version 1.18.1 --locked`
@@ -169,6 +170,6 @@ od plugin trust slint-design --capabilities prompt:inject,fs:write,mcp,subproces
 2. **Полный WASM binary** (`slint-wasm-interpreter` / wasm-pack) — deferred; в `preview/` только scaffold + docs.
 3. **RFC не подан** — `docs/RFC-artifact-kind-slint.md` остаётся DRAFT; не file / не submit upstream.
 4. **Figma → Slint** — отдельный skill позже; вне scope этого плагина.
-5. **Host PATH upgrade до 1.18.1** — опционально. На Mac может оставаться `~/.local/bin/slint-viewer` **1.17.1**; изолированный 1.18.1: `/tmp/slint-viewer-1181` (или `cargo install … --root …`). **Не** перезаписывать `~/.local/bin` без явной нужды — PATH не трогаем, пока host уже не 1.18.
+5. ~~Host PATH upgrade до 1.18.1~~ — **done 2026-09-24**: `~/.local/bin/slint-viewer` is **1.18.1**.
 
 Всё acceptance S0–S4 по чеклисту закрыто; выше — только intentional leftovers.

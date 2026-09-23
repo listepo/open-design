@@ -1,5 +1,6 @@
 # Community plugin smoke: slint-viewer --check for slint-design.
-# Path-filtered; installs a pinned viewer so CI does not rely on host PATH.
+# Pinned viewer: 1.18.1 (required for --size 1280x800 / 390x844).
+# Path-filtered; installs the pin so CI does not rely on host PATH.
 name: slint-design smoke
 
 on:
