@@ -4,15 +4,15 @@
   "name": "slint-design",
   "title": "Slint Design",
   "version": "0.1.0",
-  "description": "Design native/embedded UIs with Slint: agent writes .slint, runs slint-viewer --check/--screenshot, and previews PNG in OpenDesign. Optional Slint MCP for inspect/click.",
+  "description": "Design native/embedded UIs with Slint for OpenCode/OpenDesign: agent writes .slint, runs slint-viewer --check/--screenshot, and previews PNG. Docs MCP included; viewer MCP opt-in.",
   "license": "MIT",
   "author": {
     "name": "listepo",
     "url": "https://github.com/listepo"
   },
-  "homepage": "https://github.com/listepo/open-design/tree/feature/slint-plugin/plugins/slint-design",
+  "homepage": "https://github.com/listepo/open-design/tree/feature/slint-plugin/plugins/community/slint-design",
   "plugin": {
-    "repo": "https://github.com/listepo/open-design/tree/feature/slint-plugin/plugins/slint-design"
+    "repo": "https://github.com/listepo/open-design/tree/feature/slint-plugin/plugins/community/slint-design"
   },
   "tags": [
     "slint",

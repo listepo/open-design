@@ -19,10 +19,14 @@ od:
 Design and iterate **Slint** UIs for OpenDesign. Preview is a **PNG screenshot**
 (variant A), not an HTML canvas mount.
 
+**Primary runtime (acceptance):** OpenCode under OpenDesign. The same skill is
+portable to Claude Code and Cursor as a secondary host.
+
 ## Prerequisites
 
-- `slint-viewer` on `PATH` (1.17+; 1.18+ preferred for `--size` and viewer MCP).
+- `slint-viewer` on `PATH` (**≥ 1.17**; **1.18.1+** preferred for `--size` and optional viewer MCP).
 - Optional: `slint-lsp` for editor diagnostics.
+- Docs MCP (when applied in OD): `https://docs.slint.dev/mcp`.
 
 ## Workflow
 
@@ -40,20 +44,24 @@ Design and iterate **Slint** UIs for OpenDesign. Preview is a **PNG screenshot**
 4. **Screenshot** — render PNG for OpenDesign image preview:
 
    ```bash
+   # Prefer 1.18+ with explicit size:
    slint-viewer --screenshot ui.png --size 1280x800 path/to/ui.slint
+   # Optional second size for compact layouts:
+   slint-viewer --screenshot ui-mobile.png --size 390x844 path/to/ui.slint
    ```
 
-   Optional second size for compact layouts: `--size 390x844`.
+   If `slint-viewer --version` is **&lt; 1.18**, omit `--size` (flag does not exist)
+   and note the default window size in the report.
 5. **Report** — summarize structure, states covered, file paths (`ui.slint`,
-   `ui.png`), and remaining risks. If MCP is available, use inspect/click +
-   `take_screenshot` for interactive states instead of guessing.
+   `ui.png`), viewer version, and remaining risks. If optional viewer MCP is
+   available, use inspect/click + `take_screenshot` for interactive states.
 6. **Iterate** — on feedback, edit `.slint`, re-check, re-screenshot, overwrite
    or version PNGs clearly (`ui-v2.png`).
 
 ## Output contract
 
 - Source: one or more `.slint` files in the project workspace.
-- Preview artifact: PNG (and optional JPG) produced by `slint-viewer --screenshot`.
+- Preview artifact: PNG produced by `slint-viewer --screenshot`.
 - Short `notes.md` only if the user asked for a written handoff.
 
 ## Do not
@@ -61,8 +69,9 @@ Design and iterate **Slint** UIs for OpenDesign. Preview is a **PNG screenshot**
 - Do not invent a new OpenDesign `ArtifactKind`.
 - Do not promise HTML srcDoc bridges (element inspector, tweak, per-node comments).
 - Do not skip `--check` when the viewer is installed.
-- Do not block on WASM interactive preview (optional later stage).
+- Do not require embedded Slint viewer MCP (opt-in only).
+- Do not block on WASM interactive preview (optional later stage; see `preview/`).
 
 ## References
 
-Load `references/workflow.md` for the detailed checklist and MCP notes.
+Load `references/workflow.md` for the detailed checklist, multi-size notes, and MCP notes.
