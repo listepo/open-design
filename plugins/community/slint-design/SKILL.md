@@ -52,6 +52,8 @@ portable to Claude Code and Cursor as a secondary host.
 
    If `slint-viewer --version` is **&lt; 1.18**, omit `--size` (flag does not exist)
    and note the default window size in the report.
+   Example committed PNGs: `examples/hello-window-1280x800.png` and
+   `examples/hello-window-390x844.png` (plus intrinsic `hello-window.png`).
 5. **Report** — summarize structure, states covered, file paths (`ui.slint`,
    `ui.png`), viewer version, and remaining risks. If optional viewer MCP is
    available, use inspect/click + `take_screenshot` for interactive states.

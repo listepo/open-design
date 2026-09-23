@@ -8,4 +8,7 @@ Use:
 plugins/community/slint-design
 ```
 
+**PLAN.md** (design plan, S0–S4) also lives under the community path:
+`plugins/community/slint-design/PLAN.md` — not in this stub directory.
+
 Do not add new content here.

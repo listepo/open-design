@@ -16,6 +16,16 @@
 
 Prefer two PNGs when `--size` exists (1.18+): desktop + mobile. On 1.17.x the flag is absent — do not fail the run; document the limitation and continue with a single default-size PNG.
 
+Committed reference PNGs (generated with **slint-viewer 1.18.1**):
+
+- `examples/hello-window.png` — preferred size 480×320 (also valid on 1.17)
+- `examples/hello-window-1280x800.png` — desktop
+- `examples/hello-window-390x844.png` — mobile / compact
+
+**Rule:** if `slint-viewer --help` shows `--size`, use it; otherwise omit and keep one PNG.
+
+`scripts/smoke.sh` honors `SLINT_VIEWER=...` and, when `--size` exists, also writes temp multi-size screenshots (best-effort; never fails smoke on 1.17).
+
 ## Docs MCP
 
 Manifest declares `slint-docs` → `https://docs.slint.dev/mcp` (`search` / `fetch`). Under OpenDesign + OpenCode this is injected via `OPENCODE_CONFIG_CONTENT`.

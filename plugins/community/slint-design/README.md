@@ -61,16 +61,38 @@ slint-viewer --screenshot ui.png --size 1280x800 ui.slint
 slint-viewer --screenshot ui.png ui.slint
 ```
 
+### Size flag rule (1.17 vs 1.18)
+
+| Viewer | `--size WxH` | What to do |
+|--------|--------------|------------|
+| **≥ 1.18** | Supported | Prefer explicit sizes: desktop `1280x800`, mobile/compact `390x844` |
+| **1.17.x** | Missing (`unexpected argument '--size'`) | Omit the flag; use default/preferred size; do not fail the run |
+
+Committed example PNGs under `examples/` (regenerate with 1.18.1+):
+
+| File | Size | Notes |
+|------|------|-------|
+| `hello-window.png` | 480×320 | Intrinsic / preferred size (works on 1.17) |
+| `hello-window-1280x800.png` | 1280×800 | Desktop (`--size`, 1.18+) |
+| `hello-window-390x844.png` | 390×844 | Mobile / compact (`--size`, 1.18+) |
+
+```bash
+SLINT_VIEWER=/path/to/slint-viewer-1.18.1 ./scripts/smoke.sh
+# or regenerate committed examples:
+slint-viewer --screenshot examples/hello-window-1280x800.png --size 1280x800 examples/hello-window.slint
+slint-viewer --screenshot examples/hello-window-390x844.png --size 390x844 examples/hello-window.slint
+```
+
 ## Layout
 
 | Path | Purpose |
 |------|---------|
 | `SKILL.md` | Agent workflow |
 | `open-design.json` | Marketplace / preview / MCP / capabilities |
-| `examples/` | Minimal demo |
+| `examples/` | Minimal demo + committed multi-size PNGs |
 | `templates/` | Starting points |
 | `references/workflow.md` | Detailed checklist |
-| `scripts/smoke.sh` | Local / CI `--check` smoke |
+| `scripts/smoke.sh` | Local / CI `--check` smoke; optional temp multi-size PNGs if `--size` exists |
 | `preview/` | Experimental WASM HTML scaffold (S3 deferred) |
 | `docs/RFC-artifact-kind-slint.md` | Draft RFC (not submitted) |
 | `PLAN.md` | Design plan (RU), stages S0–S4 |

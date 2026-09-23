@@ -157,3 +157,18 @@ od plugin trust slint-design --capabilities prompt:inject,fs:write,mcp,subproces
 ```
 
 `subprocess` нужен для внешнего `slint-viewer` (и optional viewer MCP), не built-in OD tool.
+
+
+---
+
+## 9. Remaining (intentional)
+
+Сознательные отложения / не делаем в этом форке без отдельного решения:
+
+1. **Upstream PR в `nexu-io/open-design` — не открываем.** Работа остаётся в форке `listepo/open-design`, ветка `feature/slint-plugin`.
+2. **Полный WASM binary** (`slint-wasm-interpreter` / wasm-pack) — deferred; в `preview/` только scaffold + docs.
+3. **RFC не подан** — `docs/RFC-artifact-kind-slint.md` остаётся DRAFT; не file / не submit upstream.
+4. **Figma → Slint** — отдельный skill позже; вне scope этого плагина.
+5. **Host PATH upgrade до 1.18.1** — опционально. На Mac может оставаться `~/.local/bin/slint-viewer` **1.17.1**; изолированный 1.18.1: `/tmp/slint-viewer-1181` (или `cargo install … --root …`). **Не** перезаписывать `~/.local/bin` без явной нужды — PATH не трогаем, пока host уже не 1.18.
+
+Всё acceptance S0–S4 по чеклисту закрыто; выше — только intentional leftovers.
