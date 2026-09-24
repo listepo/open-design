@@ -1,16 +1,23 @@
-# Community plugin smoke: slint-viewer --check for slint-design.
+# Community plugin smoke + fast integration: slint-design (#8405).
 # Pinned viewer: 1.18.1 (required for --size 1280x800 / 390x844).
 # Path-filtered; installs the pin so CI does not rely on host PATH.
+# No Electron / full daemon GUI e2e (those are flaky/timeout-prone).
 name: slint-design smoke
 
 on:
   push:
     paths:
       - "plugins/community/slint-design/**"
+      - "plugins/slint-design/**"
+      - "plugins/registry/community/open-design-marketplace.json"
+      - "apps/daemon/tests/plugins-slint-design-integration.test.ts"
       - ".github/workflows/slint-design-smoke.yml"
   pull_request:
     paths:
       - "plugins/community/slint-design/**"
+      - "plugins/slint-design/**"
+      - "plugins/registry/community/open-design-marketplace.json"
+      - "apps/daemon/tests/plugins-slint-design-integration.test.ts"
       - ".github/workflows/slint-design-smoke.yml"
   workflow_dispatch:
 
@@ -21,6 +28,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Integration checks (manifest / catalog / --check when available)
+        run: node plugins/community/slint-design/scripts/integration-check.mjs
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -37,6 +52,9 @@ jobs:
 
       - name: Show version
         run: slint-viewer --version
+
+      - name: Re-run integration checks with viewer on PATH
+        run: node plugins/community/slint-design/scripts/integration-check.mjs
 
       - name: Run smoke (--check + best-effort --size screenshots)
         run: bash plugins/community/slint-design/scripts/smoke.sh

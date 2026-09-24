@@ -4,7 +4,21 @@
 **Ветка:** `feature/slint-plugin`  
 **Путь:** `plugins/community/slint-design` (stub redirect: `plugins/slint-design/README.md`)  
 **Связанный issue:** https://github.com/nexu-io/open-design/issues/8405  
-**Статус:** S0–S1 done; S2 implemented (docs MCP + smoke); S3 scaffold/docs (WASM binary deferred); S4 RFC draft ready (not submitted). Код ядра OpenDesign не меняем. Upstream PR **не** открываем.
+**Статус:** S0–S1 done; S2 implemented (docs MCP + smoke + integration tests); S3 scaffold/docs (WASM binary deferred); S4 RFC draft ready (not submitted). Код ядра OpenDesign не меняем. **Upstream draft PR: YES** — open `listepo:feature/slint-plugin` → `nexu-io/open-design:main` as **draft** (English body; links #8405).
+
+---
+
+## Upstream draft PR (English)
+
+**Decision (2026-09-24):** User wants an **upstream draft PR** into `nexu-io/open-design` (`main`) from fork branch `feature/slint-plugin`.
+
+- Draft only (not ready-for-review until maintainers weigh in on #8405).
+- Ship: community plugin `plugins/community/slint-design/`, stub redirect, smoke + integration checks, marketplace catalog entry.
+- Do **not** ship: full WASM interpreter binary; filed/submitted RFC for `ArtifactKind:slint`.
+- Reviewer/CI commands:
+  - `node plugins/community/slint-design/scripts/integration-check.mjs`
+  - `bash plugins/community/slint-design/scripts/smoke.sh` (needs `slint-viewer` 1.18.1)
+  - `pnpm --filter @open-design/daemon exec vitest run -c vitest.config.ts tests/plugins-slint-design-integration.test.ts`
 
 ---
 
@@ -72,7 +86,7 @@
 - Full wasm-pack build of `slint-wasm-interpreter` deferred (cost/license/CI weight).
 
 ### S4 — RFC ядра — **draft READY, NOT submitted**
-- `docs/RFC-artifact-kind-slint.md` (English DRAFT). Do not open upstream PR / do not file as official RFC yet.
+- `docs/RFC-artifact-kind-slint.md` (English DRAFT). Do **not** file as official RFC yet. Plugin delivery PR is separate (draft OK).
 
 ---
 
@@ -88,6 +102,7 @@ plugins/community/slint-design/
 ├── templates/
 ├── references/workflow.md
 ├── scripts/smoke.sh
+├── scripts/integration-check.mjs
 ├── preview/                 # S3 scaffold (experimental)
 │   ├── index.html
 │   └── README.md
@@ -144,6 +159,7 @@ Changelog facts: `--check` / `--screenshot` since ~1.17; `--size` and viewer `mc
 - [x] Docs MCP URL in `open-design.json`.
 - [x] `scripts/smoke.sh` + GHA workflow.
 - [x] Multi-size screenshot docs + graceful fallback.
+- [x] Fast integration checks (`scripts/integration-check.mjs` + daemon vitest) + marketplace catalog entry.
 
 ### S3 / S4
 - [x] Preview scaffold marked experimental/deferred.
@@ -166,7 +182,7 @@ od plugin trust slint-design --capabilities prompt:inject,fs:write,mcp,subproces
 
 Сознательные отложения / не делаем в этом форке без отдельного решения:
 
-1. **Upstream PR в `nexu-io/open-design` — не открываем.** Работа остаётся в форке `listepo/open-design`, ветка `feature/slint-plugin`.
+1. **Upstream draft PR — OPEN.** Target: `listepo:feature/slint-plugin` → `nexu-io/open-design:main` (draft). Keep WASM deferred and RFC unfiled in that PR body.
 2. **Полный WASM binary** (`slint-wasm-interpreter` / wasm-pack) — deferred; в `preview/` только scaffold + docs.
 3. **RFC не подан** — `docs/RFC-artifact-kind-slint.md` остаётся DRAFT; не file / не submit upstream.
 4. **Figma → Slint** — отдельный skill позже; вне scope этого плагина.
